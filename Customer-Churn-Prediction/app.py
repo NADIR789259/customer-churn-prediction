@@ -4,28 +4,50 @@ import pandas as pd
 from pathlib import Path
 import pickle
 
-
-
+# -------------------------------
+# Load CSS
+# -------------------------------
 def load_css():
-    css_path = Path(__file__).parent / "assets" / "style.css"
+    css_path = Path(__file__).resolve().parent / "assets" / "style.css"
 
-    if not css_path.exists():
-        st.error(f"CSS file not found: {css_path}")
-        return
-
-    with open(css_path, encoding="utf-8") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    if css_path.exists():
+        with open(css_path, encoding="utf-8") as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    else:
+        st.warning("style.css not found.")
 
 load_css()
 
 
 # -------------------------------
-# Load Model and Scaler
+# Paths
 # -------------------------------
+BASE_DIR = Path(__file__).resolve().parent
+
+MODEL_PATH = BASE_DIR / "models" / "customer_churn_model.pkl"
+SCALER_PATH = BASE_DIR / "models" / "scaler.pkl"
 
 
-model = pickle.load(open("models/customer_churn_model.pkl", "rb"))
-scaler = pickle.load(open("models/scaler.pkl", "rb"))
+# -------------------------------
+# Load Model
+# -------------------------------
+@st.cache_resource
+def load_artifacts():
+    with open(MODEL_PATH, "rb") as f:
+        model = pickle.load(f)
+
+    with open(SCALER_PATH, "rb") as f:
+        scaler = pickle.load(f)
+
+    return model, scaler
+
+
+try:
+    model, scaler = load_artifacts()
+
+except FileNotFoundError as e:
+    st.error(f"❌ Required file not found:\n{e}")
+    st.stop()
 
 st.set_page_config(
     page_title="Customer Churn Prediction",
