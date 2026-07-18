@@ -7,7 +7,9 @@ import pickle
 
 
 def load_css():
-    with open("assets/style.css") as f:
+    css_path = Path(__file__).parent / "assets" / "style.css"
+
+    with open(css_path, "r", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 load_css()
