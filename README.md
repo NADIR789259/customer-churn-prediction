@@ -11,7 +11,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](#-license)
 [![Status](https://img.shields.io/badge/Status-Portfolio%20Project-yellow)](#-project-status--honest-notes)
 
-[Live Demo](#-deployment) · [Report an Issue](#-contact) · [Documentation](#-table-of-contents)
+[Live Demo](https://ml-customer-churn.streamlit.app/) · [Report an Issue](#-contact) · [Documentation](#-table-of-contents)
 
 </div>
 
